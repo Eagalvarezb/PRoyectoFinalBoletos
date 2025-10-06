@@ -1,0 +1,29 @@
+{
+  "name": "proyectofinalboletos",
+  "version": "1.0.0",
+  "description": "Node.js Rest Apis with Express, sequelize & postgrres, complemented with java GUI",
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequelize",
+    "postgresql",
+    "rest",
+    "api",
+    "java",
+    "GUI"
+  ],
+  "license": "ISC",
+  "author": "Grupo 3 Inge Sistemas UMG 2025",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  }
+}
