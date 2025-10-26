@@ -1,3 +1,4 @@
-/js/node_modules
-/js/package-lock.json
-/java/nbproject/private/
+/node_modules
+/package-lock.json
+/visual.java/nbproject/private/
+/nbproject/private/
