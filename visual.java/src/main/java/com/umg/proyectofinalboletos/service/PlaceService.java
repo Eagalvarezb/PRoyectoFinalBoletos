@@ -5,6 +5,7 @@
 package com.umg.proyectofinalboletos.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umg.proyectofinalboletos.model.Place;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -22,58 +23,78 @@ import java.util.List;
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
 public class PlaceService {
-    private static final String BASE_URL = "";//agregar la url 
+    private static final String BASE_URL = "http://localhost:8081/api/localidades";
     private static final ObjectMapper mapper = new ObjectMapper();
+    
+    // GET todos
+    public List<Place> getAll() throws Exception { 
+        try (CloseableHttpClient client = HttpClients.createDefault()) { 
+            HttpGet request = new HttpGet(BASE_URL + "/"); 
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request); 
+            InputStream is = response.getEntity().getContent(); 
+            return mapper.readValue(is, new TypeReference<List<Place>>() {}
+            ); 
+        } 
+    }
 
-    // GET Places
-    public List<Place> getPlace() throws Exception {
+    // GET uno por id
+    public Place getOne(int id) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(BASE_URL);
+            HttpGet request = new HttpGet(BASE_URL + "/" + id);
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
-            return mapper.readValue(is, new TypeReference<List<Place>>() {});
+            JsonNode node = mapper.readTree(is);
+            if (node.has("data") && !node.get("data").isNull()) {
+                return mapper.treeToValue(node.get("data"), Place.class);
+            } else {
+                return null;
+            }
         }
     }
 
-    // POST crear Place
-    public Place createPlace(Place p) throws Exception {
+    // POST crear
+    public Place create(Place a) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(BASE_URL + "/create");
-            String json = mapper.writeValueAsString(p);
-
+            HttpPost request = new HttpPost(BASE_URL + "/");
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
                     .setText(json)
                     .setContentType(ContentType.APPLICATION_JSON)
-                    .build());
+                    .build()
+            );
 
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Place.class);
         }
-    }  
-    
-    //Put actualizar Place
-    public Place updatePlace(int id, Place p)throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpPut request = new HttpPut (BASE_URL + "/update/" + id);
-            String json = mapper.writeValueAsString(p);
-            
+    }
+
+    // PUT actualizar
+    public Place update(int id, Place a) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut request = new HttpPut(BASE_URL + "/" + id);
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
-                   .setText(json)
-                   .setContentType(ContentType.APPLICATION_JSON)
-                   .build()); 
-            ClassicHttpResponse response = (ClassicHttpResponse)client.execute(request);
+                    .setText(json)
+                    .setContentType(ContentType.APPLICATION_JSON)
+                    .build()
+            );
+
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Place.class);
         }
     }
-    
-    //Delete eleminar Place
-    public void deletePlace(int id) throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpDelete request = new HttpDelete(BASE_URL+ "/delete/" + id);
+
+    // DELETE
+    public void delete(int id) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpDelete request = new HttpDelete(BASE_URL + "/" + id);
             client.execute(request).close();
         }
     }

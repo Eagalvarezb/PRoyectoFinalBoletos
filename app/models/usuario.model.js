@@ -27,5 +27,13 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.NOW
         }
     });
+
+    Usuario.associate = (models) => {
+        Usuario.hasMany(models.ventas, { 
+            foreignKey: 'id_vendedor', 
+            as: 'ventas' 
+        });
+    };
+
     return Usuario;
 };

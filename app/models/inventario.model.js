@@ -2,29 +2,41 @@ module.exports = (sequelize, Sequelize) => {
   const Inventario = sequelize.define("inventario", {
     id_inventario: {
       type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      primaryKey: true
     },
-    nombre_producto: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    cantidad: {
+    id_partido: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    precio_unitario: {
-      type: Sequelize.FLOAT,
+    id_localidad: {
+      type: Sequelize.INTEGER,
       allowNull: false
     },
-    fecha_ingreso: {
-      type: Sequelize.DATE,
+    cantidad_total: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    cantidad_disponible: {
+      type: Sequelize.INTEGER,
       allowNull: false
     }
   }, {
-    timestamps: true,    // <--- agrega createdAt y updatedAt automáticamente
-    tableName: "inventario" // asegura que la tabla se llame exactamente así
+    timestamps: true,
+    tableName: "inventario"
   });
 
+
+  Inventario.associate = (models) => {
+    Inventario.belongsTo(models.partidos, {
+      foreignKey: "id_partido",
+      as: "partido"
+    });
+
+    Inventario.belongsTo(models.localidad, {
+      foreignKey: "id_localidad",
+      as: "localidad"
+    });
+  };
   return Inventario;
 };

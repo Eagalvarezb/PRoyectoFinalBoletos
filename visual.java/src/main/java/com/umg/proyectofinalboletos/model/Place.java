@@ -12,18 +12,18 @@ import java.util.Date;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Place {
-    private int id_localidad;
+    private Integer id_localidad;
     private String nombre_localidad;
     private String direccion;
     private int capacidad;
 public Place(){
   
 }
-    public int getId_localidad() {
+    public Integer getId_localidad() {
         return id_localidad;
     }
 
-    public void setId_localidad(int id_localidad) {
+    public void setId_localidad(Integer id_localidad) {
         this.id_localidad = id_localidad;
     }
 

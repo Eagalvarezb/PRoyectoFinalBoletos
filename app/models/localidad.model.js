@@ -20,7 +20,14 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     timestamps: true,
     tableName: "localidad"
-});
+  });
+
+  Localidad.associate = (models) => {
+    Localidad.hasMany(models.inventario_boletos, {
+      foreignKey: "id_localidad",
+      as: "inventario"
+    });
+  };
 
   return Localidad;
 };

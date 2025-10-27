@@ -79,3 +79,18 @@ exports.delete = (req, res) => {
         });
 };
 
+exports.login = async (req, res) => {
+    try {
+        const { nombre_usuario, contrasena_hash } = req.body;
+        const user = await Usuario.findOne({ where: { nombre_usuario, contrasena_hash } });
+
+        if (!user) {
+            return res.status(404).send({ message: "Usuario o contraseña incorrectos." });
+        }
+
+        res.status(200).send(user);
+        } catch (error) {
+        res.status(500).send({ message: "Error en el servidor.", error });
+        }
+};
+

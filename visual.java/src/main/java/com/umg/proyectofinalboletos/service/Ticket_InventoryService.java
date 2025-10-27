@@ -5,6 +5,7 @@
 package com.umg.proyectofinalboletos.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umg.proyectofinalboletos.model.Ticket_Inventory;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -19,61 +20,83 @@ import org.apache.hc.core5.http.ContentType;
 
 import java.io.InputStream;
 import java.util.List;
+
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
+
 public class Ticket_InventoryService {
-    private static final String BASE_URL = "";//agregar la url 
+    private static final String BASE_URL = "http://localhost:8081/api/inventarios";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    // GET Ticket_Inventory
-    public List<Ticket_Inventory> getTicket_Inventory() throws Exception {
+    // GET todos
+    public List<Ticket_Inventory> getAll() throws Exception { 
+        try (CloseableHttpClient client = HttpClients.createDefault()) { 
+            HttpGet request = new HttpGet(BASE_URL + "/"); 
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request); 
+            InputStream is = response.getEntity().getContent(); 
+            return mapper.readValue(is, new TypeReference<List<Ticket_Inventory>>() {}
+            ); 
+        } 
+    }
+
+    // GET uno por id
+    public Ticket_Inventory getOne(int id) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(BASE_URL);
+            HttpGet request = new HttpGet(BASE_URL + "/" + id);
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
-            return mapper.readValue(is, new TypeReference<List<Ticket_Inventory>>() {});
+            JsonNode node = mapper.readTree(is);
+            if (node.has("data") && !node.get("data").isNull()) {
+                return mapper.treeToValue(node.get("data"), Ticket_Inventory.class);
+            } else {
+                return null;
+            }
         }
     }
 
-    // POST crear Ticket_Inventory
-    public Ticket_Inventory createTicket_Inventory(Ticket_Inventory ti) throws Exception {
+    // POST crear
+    public Ticket_Inventory create(Ticket_Inventory a) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(BASE_URL + "/create");
-            String json = mapper.writeValueAsString(ti);
-
+            HttpPost request = new HttpPost(BASE_URL + "/");
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
                     .setText(json)
                     .setContentType(ContentType.APPLICATION_JSON)
-                    .build());
+                    .build()
+            );
 
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Ticket_Inventory.class);
         }
-    }  
-    
-    //Put actualizar Ticket_Inventory
-    public Ticket_Inventory updateTicket_Inventory(int id, Ticket_Inventory ti)throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpPut request = new HttpPut (BASE_URL + "/update/" + id);
-            String json = mapper.writeValueAsString(ti);
-            
+    }
+
+    // PUT actualizar
+    public Ticket_Inventory update(int id, Ticket_Inventory a) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut request = new HttpPut(BASE_URL + "/" + id);
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
-                   .setText(json)
-                   .setContentType(ContentType.APPLICATION_JSON)
-                   .build()); 
-            ClassicHttpResponse response = (ClassicHttpResponse)client.execute(request);
+                    .setText(json)
+                    .setContentType(ContentType.APPLICATION_JSON)
+                    .build()
+            );
+
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Ticket_Inventory.class);
         }
     }
-    
-    //Delete eleminar Ticket_Inventory
-    public void deleteTicket_Inventory(int id) throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpDelete request = new HttpDelete(BASE_URL+ "/delete/" + id);
+
+    // DELETE
+    public void delete(int id) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpDelete request = new HttpDelete(BASE_URL + "/" + id);
             client.execute(request).close();
         }
     }

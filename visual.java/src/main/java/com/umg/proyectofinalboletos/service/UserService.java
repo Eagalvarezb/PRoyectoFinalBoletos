@@ -5,8 +5,10 @@
 package com.umg.proyectofinalboletos.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umg.proyectofinalboletos.model.User;
+import com.umg.proyectofinalboletos.model.response.User_Response;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
@@ -24,56 +26,80 @@ import java.util.List;
  * @author eagab
  */
 public class UserService {
-    private static final String BASE_URL = "";//agregar la url 
+    private static final String BASE_URL = "http://localhost:8081/api/usuarios";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    // GET users
-    public List<User> getUser() throws Exception {
+    // GET todos
+    public List<User_Response> getAll() throws Exception { 
+        try (CloseableHttpClient client = HttpClients.createDefault()) { 
+            HttpGet request = new HttpGet(BASE_URL + "/"); 
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request); 
+            InputStream is = response.getEntity().getContent(); 
+
+            // Leer como lista de User
+            List<User> users = mapper.readValue(is, new TypeReference<List<User>>() {});
+
+            // Convertir a User_Response usando Collectors.toList()
+            return users.stream()
+                        .map(User_Response::new)
+                        .collect(java.util.stream.Collectors.toList());
+        } 
+    }
+
+    // GET uno por id
+    public User_Response getOne(int id) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(BASE_URL);
+            HttpGet request = new HttpGet(BASE_URL + "/" + id);
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
-            return mapper.readValue(is, new TypeReference<List<User>>() {});
+            JsonNode node = mapper.readTree(is);
+            if (node.has("data") && !node.get("data").isNull()) {
+                User u = mapper.treeToValue(node.get("data"), User.class);
+                return new User_Response(u);
+            } else {
+                return null;
+            }
         }
     }
 
-    // POST crear user
-    public User createUser(User u) throws Exception {
+    // POST crear
+    public User create(User a) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(BASE_URL + "/create");
-            String json = mapper.writeValueAsString(u);
-
+            HttpPost request = new HttpPost(BASE_URL + "/");
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
                     .setText(json)
                     .setContentType(ContentType.APPLICATION_JSON)
-                    .build());
+                    .build()
+            );
 
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, User.class);
         }
-    }  
-    
-    //Put actualizar user
-    public User updateUser(int id, User u)throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpPut request = new HttpPut (BASE_URL + "/update/" + id);
-            String json = mapper.writeValueAsString(u);
-            
+    }
+
+    // PUT actualizar
+    public User update(int id, User a) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut request = new HttpPut(BASE_URL + "/" + id);
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
-                   .setText(json)
-                   .setContentType(ContentType.APPLICATION_JSON)
-                   .build()); 
-            ClassicHttpResponse response = (ClassicHttpResponse)client.execute(request);
+                    .setText(json)
+                    .setContentType(ContentType.APPLICATION_JSON)
+                    .build()
+            );
+
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, User.class);
         }
     }
-    
-    //Delete eleminar User
-    public void deleteUser(int id) throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpDelete request = new HttpDelete(BASE_URL+ "/delete/" + id);
+
+    // DELETE
+    public void delete(int id) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpDelete request = new HttpDelete(BASE_URL + "/" + id);
             client.execute(request).close();
         }
     }

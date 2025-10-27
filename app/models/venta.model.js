@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Venta = sequelize.define("venta", {
+    const Venta = sequelize.define("ventas", {
         id_venta: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -18,5 +18,14 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         }
     });
+    
+    Venta.associate = (models) => {
+        Venta.belongsTo(models.usuarios, { 
+            foreignKey: 'id_vendedor', 
+            as: 'vendedor' 
+        });
+    };
+
+
     return Venta;
 };

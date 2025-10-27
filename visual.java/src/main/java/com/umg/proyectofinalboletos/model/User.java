@@ -69,4 +69,8 @@ public User(){
     public void setFecha_creacion(Date fecha_creacion) {
         this.fecha_creacion = fecha_creacion;
     }
+
+    public void setMessage(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

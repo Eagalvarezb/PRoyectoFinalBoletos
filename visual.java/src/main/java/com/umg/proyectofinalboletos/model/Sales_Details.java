@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Sales_Details {
-    private int id_detalle;
+    private Integer id_detalle;
     private int id_venta;
     private int id_localidad;
     private int id_partido;
@@ -21,11 +21,11 @@ public Sales_Details(){
     
 }
 
-    public int getId_detalle() {
+    public Integer getId_detalle() {
         return id_detalle;
     }
 
-    public void setId_detalle(int id_detalle) {
+    public void setId_detalle(Integer id_detalle) {
         this.id_detalle = id_detalle;
     }
 

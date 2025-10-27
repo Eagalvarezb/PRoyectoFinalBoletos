@@ -5,6 +5,7 @@
 package com.umg.proyectofinalboletos.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umg.proyectofinalboletos.model.Matches;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -22,58 +23,83 @@ import java.util.List;
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
 public class MatchesService {
-    private static final String BASE_URL = "";//agregar la url 
+    private static final String BASE_URL = "http://localhost:8081/api/partidos";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    // GET Matches
-    public List<Matches> getMatches() throws Exception {
+    // GET todos
+    public List<Matches> getAll() throws Exception {
+       try (CloseableHttpClient client = HttpClients.createDefault()) {
+        HttpGet request = new HttpGet(BASE_URL + "/");
+        ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+        InputStream is = response.getEntity().getContent();
+        JsonNode node = mapper.readTree(is);
+
+        if (node.has("partidos") && node.get("partidos").isArray()) {
+            return mapper.convertValue(node.get("partidos"), new TypeReference<List<Matches>>() {});
+        } else {
+            return List.of();
+        }
+    }
+    }
+
+    // GET uno por id
+    public Matches getOne(int id) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(BASE_URL);
+            HttpGet request = new HttpGet(BASE_URL + "/" + id);
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
-            return mapper.readValue(is, new TypeReference<List<Matches>>() {});
+            JsonNode node = mapper.readTree(is);
+            if (node.has("data") && !node.get("data").isNull()) {
+                return mapper.treeToValue(node.get("data"), Matches.class);
+            } else {
+                return null;
+            }
         }
     }
 
-    // POST crear Matches
-    public Matches createMatches(Matches m) throws Exception {
+    // POST crear
+    public Matches create(Matches a) throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(BASE_URL + "/create");
-            String json = mapper.writeValueAsString(m);
-
+            HttpPost request = new HttpPost(BASE_URL + "/");
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
                     .setText(json)
                     .setContentType(ContentType.APPLICATION_JSON)
-                    .build());
+                    .build()
+            );
 
             ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Matches.class);
         }
-    }  
-    
-    //Put actualizar Matches
-    public Matches updateMatches(int id, Matches m)throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpPut request = new HttpPut (BASE_URL + "/update/" + id);
-            String json = mapper.writeValueAsString(m);
-            
+    }
+
+    // PUT actualizar
+    public Matches update(int id, Matches a) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut request = new HttpPut(BASE_URL + "/" + id);
+            String json = mapper.writeValueAsString(a);
             request.setEntity(EntityBuilder.create()
-                   .setText(json)
-                   .setContentType(ContentType.APPLICATION_JSON)
-                   .build()); 
-            ClassicHttpResponse response = (ClassicHttpResponse)client.execute(request);
+                    .setText(json)
+                    .setContentType(ContentType.APPLICATION_JSON)
+                    .build()
+            );
+
+            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
             InputStream is = response.getEntity().getContent();
             return mapper.readValue(is, Matches.class);
         }
     }
-    
-    //Delete eleminar Matches
-    public void deleteMatches(int id) throws Exception {
-        try (CloseableHttpClient client = HttpClients.createDefault()){
-            HttpDelete request = new HttpDelete(BASE_URL+ "/delete/" + id);
+
+    // DELETE
+    public void delete(int id) throws Exception {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpDelete request = new HttpDelete(BASE_URL + "/" + id);
             client.execute(request).close();
         }
     }

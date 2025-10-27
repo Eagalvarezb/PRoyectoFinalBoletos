@@ -1,41 +1,41 @@
-module.exports = (sequelize, DataTypes) => {
-    const Partido = sequelize.define('partidos', {
+module.exports = (sequelize, Sequelize) => {
+    const Partido = sequelize.define("partidos", {
         id_partido: {
-            type: DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        equipo_visitante: {
-            type: DataTypes.STRING(100),
+        equipo_local: {
+            type: Sequelize.STRING,
             allowNull: false
         },
-        equipo_local: {
-            type: DataTypes.STRING(100),
+        equipo_visitante: {
+            type: Sequelize.STRING,
             allowNull: false
         },
         fecha_partido: {
-            type: DataTypes.DATE,
+            type: Sequelize.DATE,
             allowNull: false
         },
         estadio: {
-            type: DataTypes.STRING(100),
+            type: Sequelize.STRING,
             allowNull: false
         },
         estado: {
-            type: DataTypes.STRING(20),
-            allowNull: false,
-            defaultValue: 'programado',
-            validate: { isIn: [['programado', 'activo', 'finalizado']] }
-        },
-        creado_en: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW
+            type: Sequelize.STRING,
+            allowNull: false
         }
     }, {
-        tableName: 'partidos',
-        timestamps: false
-    });
+        timestamps: true,
+        tableName: "partidos"
+        });
 
-    return Partido;
+    Partido.associate = (models) => {
+    Partido.hasMany(models.inventario_boletos, {
+        foreignKey: "id_partido",
+        as: "inventario"
+    });
+    };
+
+return Partido;
 };
