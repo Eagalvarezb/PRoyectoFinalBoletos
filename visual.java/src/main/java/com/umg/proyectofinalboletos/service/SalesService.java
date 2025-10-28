@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 public class SalesService {
-    private static final String BASE_URL = "http://localhost:8081/api/venta";
+    private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/venta";
     private static final ObjectMapper mapper = new ObjectMapper();
    
     // GET todos
