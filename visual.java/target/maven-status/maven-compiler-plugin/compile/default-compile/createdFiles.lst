@@ -8,6 +8,7 @@ com/umg/proyectofinalboletos/view/User_View$6.class
 com/umg/proyectofinalboletos/view/Mini_Dashboard.class
 com/umg/proyectofinalboletos/view/Dashboard$7.class
 com/umg/proyectofinalboletos/view/Matches_View$6.class
+com/umg/proyectofinalboletos/view/Mini_Dashboard$13.class
 com/umg/proyectofinalboletos/view/Place_View$5.class
 com/umg/proyectofinalboletos/view/Matches_View$3.class
 com/umg/proyectofinalboletos/view/Dashboard$4.class
@@ -39,6 +40,7 @@ com/umg/proyectofinalboletos/view/Mini_Dashboard$5.class
 com/umg/proyectofinalboletos/view/Dashboard$9.class
 com/umg/proyectofinalboletos/view/Place_View$2.class
 com/umg/proyectofinalboletos/view/Mini_Dashboard$11.class
+com/umg/proyectofinalboletos/service/ReporteService.class
 com/umg/proyectofinalboletos/view/Ticket_Inventory_View$3.class
 com/umg/proyectofinalboletos/service/SalesService.class
 com/umg/proyectofinalboletos/view/User_View$3.class
@@ -77,6 +79,7 @@ com/umg/proyectofinalboletos/view/User_View$8.class
 com/umg/proyectofinalboletos/view/Matches_View$4.class
 com/umg/proyectofinalboletos/view/Mini_Dashboard$1.class
 com/umg/proyectofinalboletos/model/Sales_Details.class
+com/umg/proyectofinalboletos/view/Mini_Dashboard$14.class
 com/umg/proyectofinalboletos/model/response/Login_Response.class
 com/umg/proyectofinalboletos/view/Dashboard$12.class
 com/umg/proyectofinalboletos/view/Ticket_Inventory_View$4.class
@@ -96,6 +99,7 @@ com/umg/proyectofinalboletos/view/Main.class
 com/umg/proyectofinalboletos/view/Place_View$3.class
 com/umg/proyectofinalboletos/view/User_View$7.class
 com/umg/proyectofinalboletos/view/Matches_View$5.class
+com/umg/proyectofinalboletos/view/Dashboard$15.class
 com/umg/proyectofinalboletos/service/PlaceService.class
 com/umg/proyectofinalboletos/service/UserService.class
 com/umg/proyectofinalboletos/view/Sales_View$6.class
@@ -106,8 +110,10 @@ com/umg/proyectofinalboletos/view/Mini_Dashboard$2.class
 com/umg/proyectofinalboletos/service/Sales_DetailsService.class
 com/umg/proyectofinalboletos/view/Dashboard$6.class
 com/umg/proyectofinalboletos/view/Ticket_Inventory_View$5.class
+com/umg/proyectofinalboletos/view/Dashboard$14.class
 com/umg/proyectofinalboletos/view/Sales_View$7.class
 com/umg/proyectofinalboletos/view/Place_View$4.class
 com/umg/proyectofinalboletos/view/Sales_Details_View$1.class
 com/umg/proyectofinalboletos/view/Sales_Details_View$8.class
 com/umg/proyectofinalboletos/view/Mini_Dashboard$3.class
+com/umg/proyectofinalboletos/view/HashMap.class

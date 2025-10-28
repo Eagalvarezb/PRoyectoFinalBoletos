@@ -8,7 +8,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Sales_Details {
     private Integer id_detalle;

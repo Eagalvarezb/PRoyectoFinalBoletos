@@ -21,10 +21,15 @@ import org.apache.hc.core5.http.ContentType;
 
 import java.io.InputStream;
 import java.util.List;
+
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
+
 public class UserService {
     private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/usuarios";
     private static final ObjectMapper mapper = new ObjectMapper();

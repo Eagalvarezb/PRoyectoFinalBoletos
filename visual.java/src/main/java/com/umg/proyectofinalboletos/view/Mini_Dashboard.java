@@ -105,6 +105,10 @@ Init.setVisible(true);
         btb_client_txt = new javax.swing.JLabel();
         btn_det_sale = new javax.swing.JPanel();
         btb_user_txt = new javax.swing.JLabel();
+        btn_report_match = new javax.swing.JPanel();
+        btb_user_txt1 = new javax.swing.JLabel();
+        btn_report_user = new javax.swing.JPanel();
+        btb_user_txt2 = new javax.swing.JLabel();
         DesktopPane = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -304,6 +308,42 @@ Init.setVisible(true);
 
         Menu.add(btn_det_sale, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, -1, -1));
 
+        btn_report_match.setBackground(new java.awt.Color(65, 108, 64));
+        btn_report_match.setMaximumSize(new java.awt.Dimension(170, 42));
+        btn_report_match.setPreferredSize(new java.awt.Dimension(170, 42));
+        btn_report_match.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_report_matchMouseClicked(evt);
+            }
+        });
+        btn_report_match.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btb_user_txt1.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btb_user_txt1.setForeground(new java.awt.Color(255, 255, 255));
+        btb_user_txt1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/images.png"))); // NOI18N
+        btb_user_txt1.setText("Reporte Partidos");
+        btn_report_match.add(btb_user_txt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 9, -1, -1));
+
+        Menu.add(btn_report_match, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 472, -1, -1));
+
+        btn_report_user.setBackground(new java.awt.Color(65, 108, 64));
+        btn_report_user.setMaximumSize(new java.awt.Dimension(170, 42));
+        btn_report_user.setPreferredSize(new java.awt.Dimension(170, 42));
+        btn_report_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_report_userMouseClicked(evt);
+            }
+        });
+        btn_report_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btb_user_txt2.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btb_user_txt2.setForeground(new java.awt.Color(255, 255, 255));
+        btb_user_txt2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/account-multiple.png"))); // NOI18N
+        btb_user_txt2.setText("Reporte Usuarios");
+        btn_report_user.add(btb_user_txt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 9, -1, -1));
+
+        Menu.add(btn_report_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 514, -1, -1));
+
         Background.add(Menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 750));
 
         DesktopPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -462,6 +502,14 @@ Init.setVisible(true);
             }
     }//GEN-LAST:event_TitleMouseClicked
 
+    private void btn_report_matchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_report_matchMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_report_matchMouseClicked
+
+    private void btn_report_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_report_userMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_report_userMouseClicked
+
     
 
 
@@ -520,10 +568,14 @@ Init.setVisible(true);
     private javax.swing.JLabel btb_prod_txt;
     private javax.swing.JLabel btb_prov_txt;
     private javax.swing.JLabel btb_user_txt;
+    private javax.swing.JLabel btb_user_txt1;
+    private javax.swing.JLabel btb_user_txt2;
     private javax.swing.JPanel btn_det_sale;
     private javax.swing.JPanel btn_inv;
     private javax.swing.JPanel btn_match;
     private javax.swing.JPanel btn_place;
+    private javax.swing.JPanel btn_report_match;
+    private javax.swing.JPanel btn_report_user;
     private javax.swing.JPanel btn_sales;
     private javax.swing.JPanel btn_usr;
     private javax.swing.JPanel exit_cube;

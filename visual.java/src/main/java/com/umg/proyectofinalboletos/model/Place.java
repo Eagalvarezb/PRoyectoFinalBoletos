@@ -9,7 +9,11 @@ import java.util.Date;
 /**
  *
  * @author eagab
+ * 
+ * @editor MK
+ * 
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Place {
     private Integer id_localidad;

@@ -77,9 +77,9 @@ public class Sales_Details_View extends javax.swing.JInternalFrame {
         int id = (int) modelo.getValueAt(row, 0);
         txtId.setText(String.valueOf(id));
         txtIdSale.setText(String.valueOf(modelo.getValueAt(row, 1)));
-        txtIdPlace.setText((String) modelo.getValueAt(row, 2));
-        txtIdMatch.setText((String) modelo.getValueAt(row, 3));
-        txtQuanti.setText((String) modelo.getValueAt(row, 4));
+        txtIdPlace.setText(String.valueOf(modelo.getValueAt(row, 2)));
+        txtIdMatch.setText(String.valueOf(modelo.getValueAt(row, 3)));
+        txtQuanti.setText(String.valueOf(modelo.getValueAt(row, 4)));
         txtPrice.setText(String.valueOf(modelo.getValueAt(row, 5)));
         
     }

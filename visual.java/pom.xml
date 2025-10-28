@@ -10,58 +10,75 @@
         <maven.compiler.release>17</maven.compiler.release>
         <exec.mainClass>com.umg.proyectofinalboletos.view.Main</exec.mainClass>
     </properties>
+    
     <dependencies>
-        <!-- Cliente HTTP para consumir REST -->
+        <!-- Librerías de UI -->
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE270</version>
+        </dependency>
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+
+        <!-- Jackson compatible con JasperReports 7.0.3 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+
+        <!-- postgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
+
+        <!-- Otras librerías -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
         </dependency>
-
-        <!-- Gson para manejar JSON -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.2.1</version>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
- <dependency>
-        <groupId>org.apache.httpcomponents.client5</groupId>
-        <artifactId>httpclient5</artifactId>
-        <version>5.2.1</version>
-    </dependency>
-
-    <!-- JSON (Jackson) -->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.16.0</version>
-    </dependency>
-        <!-- (Opcional) Lombok para evitar escribir getters/setters -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>AbsoluteLayout</artifactId>
-            <version>RELEASE270</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
-        <dependency>
-            <groupId>com.toedter</groupId>
-            <artifactId>jcalendar</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>AbsoluteLayout</artifactId>
-            <version>RELEASE220</version>
-        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
@@ -77,3 +94,4 @@
         </plugins>
     </build>
 </project>
+
