@@ -9,6 +9,8 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import com.umg.proyectofinalboletos.service.ReporteService;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -42,7 +44,7 @@ LocalDate actualdate = LocalDate.now();
 // </editor-fold>
 //-----------------------------------------------     
 // <editor-fold defaultstate="collapsed" desc="Configuraciones de Botones">
-paneles = new JPanel[] { btn_det_sale,btn_inv,btn_match,btn_place,btn_sales,btn_usr}; 
+paneles = new JPanel[] { btn_det_sale,btn_inv,btn_match,btn_place,btn_sales,btn_usr, btn_report_match, btn_report_user}; 
     Color colorNormal = new Color(65,108,64);  
     Color colorHover = new Color(98,167,97);   
     Color colorSeleccionado = new Color(53,119,52);
@@ -715,8 +717,21 @@ Init.setVisible(true);
     private void btn_report_matchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_report_matchMouseClicked
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("IMAGEN_LOGO", new FileInputStream("src/main/resources/imagenes/Proyecto_nuevo.jpg"));
-            ReporteService.showReport("src/main/resources/reports/Proyecto_Final_Boletos_Match.jrxml", params);
+
+            // Cargar la imagen desde el JAR
+            InputStream imagenStream = getClass().getResourceAsStream("/imagenes/Proyecto_nuevo.jpg");
+            if (imagenStream == null) {
+                throw new FileNotFoundException("No se encontró la imagen en el JAR");
+            }
+            params.put("IMAGEN_LOGO", imagenStream);
+
+            // Cargar el reporte desde el JAR
+            InputStream reporteStream = getClass().getResourceAsStream("/reports/Proyecto_Final_Boletos_Match.jrxml");
+            if (reporteStream == null) {
+                throw new FileNotFoundException("No se encontró el reporte en el JAR");
+            }
+
+            ReporteService.showReport(reporteStream, params);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
@@ -726,8 +741,21 @@ Init.setVisible(true);
     private void btn_report_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_report_userMouseClicked
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("IMAGEN_LOGO", new FileInputStream("src/main/resources/imagenes/Proyecto_nuevo.jpg"));
-            ReporteService.showReport("src/main/resources/reports/Proyecto_Final_Boletos_Vendor_v2.jrxml", params);
+
+            // Cargar la imagen desde el JAR
+            InputStream imagenStream = getClass().getResourceAsStream("/imagenes/Proyecto_nuevo.jpg");
+            if (imagenStream == null) {
+                throw new FileNotFoundException("No se encontró la imagen en el JAR");
+            }
+            params.put("IMAGEN_LOGO", imagenStream);
+
+            // Cargar el reporte desde el JAR
+            InputStream reporteStream = getClass().getResourceAsStream("/reports/Proyecto_Final_Boletos_Vendor_v2.jrxml");
+            if (reporteStream == null) {
+                throw new FileNotFoundException("No se encontró el reporte en el JAR");
+            }
+
+            ReporteService.showReport(reporteStream, params);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());

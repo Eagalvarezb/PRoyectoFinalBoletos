@@ -7,6 +7,7 @@ package com.umg.proyectofinalboletos.service;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Map;
@@ -19,19 +20,20 @@ public class ReporteService {
     private static final String DB_USER = "neondb_owner";
     private static final String DB_PASS = "npg_tnK3IO2zYcuZ";
 
-    public static void showReport(String jrxmlPath, Map<String, Object> params) {
+    // NUEVO: recibe InputStream en vez de String
+    public static void showReport(InputStream jrxmlStream, Map<String, Object> params) {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
-            
-            // Compilar JRXML a JasperReport
-            JasperReport report = JasperCompileManager.compileReport(jrxmlPath);
-            
+
+            // Compilar JRXML a JasperReport desde InputStream
+            JasperReport report = JasperCompileManager.compileReport(jrxmlStream);
+
             // Llenar el reporte con datos
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, conn);
-            
+
             // Mostrar en ventana nueva
             JasperViewer viewer = new JasperViewer(jasperPrint, false);
             viewer.setVisible(true);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
