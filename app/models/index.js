@@ -19,36 +19,48 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Modelos
-db.detalle_ventas = require("./detalle_venta.model.js")(sequelize, Sequelize);
-db.inventario = require("./inventario.model.js")(sequelize, Sequelize);
-db.localidad = require("./localidad.model.js")(sequelize, Sequelize);
-db.partidos = require("./partido.model.js")(sequelize, Sequelize);
-db.usuarios = require("./usuario.model.js")(sequelize, Sequelize);
-db.ventas = require("./venta.model.js")(sequelize, Sequelize);
+//---------------------------------------------|Modelos|--------------------------------------------
+    db.detalle_ventas = require("./detalle_venta.model.js")(sequelize, Sequelize);
+    db.inventario = require("./inventario.model.js")(sequelize, Sequelize);
+    db.localidad = require("./localidad.model.js")(sequelize, Sequelize);
+    db.partidos = require("./partido.model.js")(sequelize, Sequelize);
+    db.usuarios = require("./usuario.model.js")(sequelize, Sequelize);
+    db.ventas = require("./venta.model.js")(sequelize, Sequelize);
+//--------------------------------------------------------------------------------------------------
 
-//  Venta - DetalleVenta
-db.ventas.hasMany(db.detalle_ventas, { foreignKey: "id_venta", as: "detalles" });
-db.detalle_ventas.belongsTo(db.ventas, { foreignKey: "id_venta", as: "venta" });
+//-----------------------------------------|Venta - Detalle|----------------------------------------
+    db.ventas.hasMany(db.detalle_ventas, { foreignKey: "id_venta", as: "detalles" });
+    db.detalle_ventas.belongsTo(db.ventas, { foreignKey: "id_venta", as: "venta" });
+//--------------------------------------------------------------------------------------------------
 
-//  Localidad - DetalleVenta
-db.localidad.hasMany(db.detalle_ventas, { foreignKey: "id_localidad", as: "detalle_ventas" });
-db.detalle_ventas.belongsTo(db.localidad, { foreignKey: "id_localidad", as: "localidad" });
+//---------------------------------------|Localidad - Detalle|--------------------------------------
+    db.localidad.hasMany(db.detalle_ventas, { foreignKey: "id_localidad", as: "detalle_ventas" });
+    db.detalle_ventas.belongsTo(db.localidad, { foreignKey: "id_localidad", as: "localidad" });
+//--------------------------------------------------------------------------------------------------
 
-//  Partido - DetalleVenta
-db.partidos.hasMany(db.detalle_ventas, { foreignKey: "id_partido", as: "detalle_ventas" });
-db.detalle_ventas.belongsTo(db.partidos, { foreignKey: "id_partido", as: "partido" });
+//----------------------------------------|Partido - Detalle|---------------------------------------
+    db.partidos.hasMany(db.detalle_ventas, { foreignKey: "id_partido", as: "detalle_ventas" });
+    db.detalle_ventas.belongsTo(db.partidos, { foreignKey: "id_partido", as: "partido" });
+//--------------------------------------------------------------------------------------------------
 
-//  Usuario (vendedor) - Venta
-db.usuarios.hasMany(db.ventas, { foreignKey: 'id_vendedor', as: 'ventas' });
-db.ventas.belongsTo(db.usuarios, { foreignKey: 'id_vendedor', as: 'vendedor' });
+//---------------------------------------|Detalle - inventario|-------------------------------------
+    db.inventario.hasMany(db.detalle_ventas, { foreignKey: "id_inventario", as: "detalle_ventas" });
+    db.detalle_ventas.belongsTo(db.inventario, { foreignKey: "id_inventario", as: "inventario" });
+//--------------------------------------------------------------------------------------------------
 
-//  Partido - inventario
-db.partidos.hasMany(db.inventario, { foreignKey: "id_partido", as: "inventarios" });
-db.inventario.belongsTo(db.partidos, { foreignKey: "id_partido", as: "partido" });
+//-----------------------------------------|Usuario - Venta|----------------------------------------
+    db.usuarios.hasMany(db.ventas, { foreignKey: 'id_vendedor', as: 'ventas' });
+    db.ventas.belongsTo(db.usuarios, { foreignKey: 'id_vendedor', as: 'vendedor' });
+//--------------------------------------------------------------------------------------------------
 
-//  Localidad - inventario
-db.localidad.hasMany(db.inventario, { foreignKey: "id_localidad", as: "inventarios" });
-db.inventario.belongsTo(db.localidad, { foreignKey: "id_localidad", as: "localidad" });
+//---------------------------------------|Partido - inventario|-------------------------------------
+    db.partidos.hasMany(db.inventario, { foreignKey: "id_partido", as: "inventarios" });
+    db.inventario.belongsTo(db.partidos, { foreignKey: "id_partido", as: "partido" });
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------|Localidad - inventario|------------------------------------
+    db.localidad.hasMany(db.inventario, { foreignKey: "id_localidad", as: "inventarios" });
+    db.inventario.belongsTo(db.localidad, { foreignKey: "id_localidad", as: "localidad" });
+//--------------------------------------------------------------------------------------------------
 
 module.exports = db;

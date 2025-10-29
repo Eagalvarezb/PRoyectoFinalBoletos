@@ -1,0 +1,155 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="Boleto_Chapin_Reporte_Usuarios" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto_Final_Boletos"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50.0" bold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18.0" bold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14.0" bold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle mode="Opaque" backcolor="#F0EFEF">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<query language="SQL"><![CDATA[SELECT 
+    u.id_usuario,
+    u.nombre_completo AS vendedor,
+    v.id_venta,
+    v.fecha_venta,
+    SUM(d.cantidad * d.precio_unitario) AS subtotal_venta,
+    SUM(SUM(d.cantidad * d.precio_unitario)) OVER (PARTITION BY u.id_usuario) AS total_vendedor
+FROM usuarios u
+JOIN ventas v ON u.id_usuario = v.id_vendedor
+JOIN detalle_ventas d ON v.id_venta = d.id_venta
+GROUP BY u.id_usuario, u.nombre_completo, v.id_venta, v.fecha_venta
+ORDER BY u.nombre_completo, v.fecha_venta;
+]]></query>
+	<field name="vendedor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vendedor"/>
+		<property name="com.jaspersoft.studio.field.label" value="vendedor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
+	</field>
+	<field name="id_venta" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="fecha_venta" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
+	</field>
+	<field name="subtotal_venta" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="subtotal_venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="subtotal_venta"/>
+	</field>
+	<field name="total_vendedor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_vendedor"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_vendedor"/>
+	</field>
+		<parameter name="IMAGEN_LOGO" class="java.io.InputStream"/>
+	<group name="Group1">
+		<expression><![CDATA[$F{vendedor}]]></expression>
+		<groupHeader>
+			<band height="29">
+				<element kind="frame" uuid="f24569ed-2518-465a-a480-0c195aacd180" mode="Opaque" x="0" y="3" width="676" height="24" forecolor="#B89F7D" backcolor="#000000">
+					<element kind="textField" uuid="5b7282d2-5169-4db4-b85a-e2391d4d4e66" x="2" y="0" width="528" height="24" forecolor="#FFFFFF" fontSize="15.0" textAdjust="StretchHeight" bold="true" vTextAlign="Middle" style="SubTitle">
+						<expression><![CDATA[$F{vendedor}]]></expression>
+					</element>
+				</element>
+				<element kind="rectangle" uuid="70e1e931-2edd-4f3d-b09b-b9da04709f25" x="680" y="3" width="121" height="24" backcolor="#666666">
+					<pen lineWidth="0.0"/>
+				</element>
+				<element kind="textField" uuid="c09ae599-41a3-4b19-8a1e-72af405a3627" positionType="Float" x="710" y="3" width="91" height="24" forecolor="#000000" fontName="Times New Roman" fontSize="15.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA[$F{total_vendedor}]]></expression>
+				</element>
+				<element kind="staticText" uuid="42503dc0-4e24-4e5d-a6f7-272a4fd7e153" x="680" y="3" width="30" height="24" forecolor="#000000" fontSize="15.0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+					<text><![CDATA[Q]]></text>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571576f5-02e6-4d2a-aaa8-6b5102ec1c1a"/>
+				</element>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<expression><![CDATA[$F{total_vendedor}]]></expression>
+	</group>
+	<background splitType="Stretch"/>
+	<title height="102" splitType="Stretch">
+		<element kind="image" uuid="651ccc4b-e999-40fe-bcbf-1f25bcfc98af" x="725" y="0" width="77" height="102">
+			<expression><![CDATA[$P{IMAGEN_LOGO}]]></expression>
+		</element>
+		<element kind="frame" uuid="d8d9e644-3a32-491d-97cb-a277aff17133" mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000">
+			<element kind="staticText" uuid="27d8f6ee-f0a9-44f6-a160-1763c3b00f30" x="0" y="0" width="540" height="66" fontSize="33.0" bold="false" vTextAlign="Top" style="Title">
+				<text><![CDATA[Reporte de Ventas por Usuario]]></text>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4" style="Title"/>
+			</element>
+			<element kind="staticText" uuid="cfa21334-0634-4605-9ea7-aca4981f67e4" x="510" y="43" width="200" height="16" forecolor="#406943" fontSize="13.0" bold="false" hTextAlign="Center" vTextAlign="Middle" style="SubTitle">
+				<text><![CDATA[Gooooooooolaaaaaaaaazoooooooo!!!]]></text>
+			</element>
+		</element>
+		<element kind="frame" uuid="b0c895f6-6dbd-477d-9858-9ad66af087e1" mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#5D9B5C">
+			<element kind="textField" uuid="a33fce3b-20c1-4696-873a-fe134d1e7d88" x="553" y="12" width="144" height="20" forecolor="#FFFFFF" fontSize="12.0" pattern="EEEEE dd MMMMM yyyy" hTextAlign="Right">
+				<expression><![CDATA[new java.util.Date()]]></expression>
+			</element>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader height="18" splitType="Stretch">
+		<element kind="staticText" uuid="0c01e99e-823e-4d27-97cf-a4c8b7438afb" x="0" y="0" width="265" height="18" forecolor="#000000" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Id de la Venta]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e87a125-0728-4e3e-945a-b626bda546f8"/>
+		</element>
+		<element kind="staticText" uuid="ef02e605-9cfc-4f3b-ac44-7f865b35464d" x="265" y="0" width="265" height="18" forecolor="#000000" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Fecha de la Venta]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2cfff452-e3e1-44e7-ace3-0345b3217d8f"/>
+		</element>
+		<element kind="staticText" uuid="252c07e1-18bc-472f-81aa-2abda1faef9c" x="530" y="0" width="265" height="18" forecolor="#000000" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Subtotal de la Venta]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571576f5-02e6-4d2a-aaa8-6b5102ec1c1a"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<element kind="frame" uuid="34a2ae4b-4055-476b-8676-d499f6af510b" mode="Opaque" x="0" y="0" width="797" height="18" style="Row">
+				<element kind="textField" uuid="c0be1fab-4206-4e0b-acd2-4a089130b1f0" positionType="Float" x="0" y="0" width="265" height="18" fontSize="12.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{id_venta}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e87a125-0728-4e3e-945a-b626bda546f8"/>
+				</element>
+				<element kind="textField" uuid="63c1c4f6-54fc-4038-915e-b7f435661ce3" positionType="Float" x="265" y="0" width="265" height="18" fontSize="12.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{fecha_venta}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2cfff452-e3e1-44e7-ace3-0345b3217d8f"/>
+				</element>
+				<element kind="textField" uuid="308fcd2a-b80f-49d3-a314-36d9de150e49" positionType="Float" x="580" y="0" width="215" height="18" fontSize="12.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{subtotal_venta}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571576f5-02e6-4d2a-aaa8-6b5102ec1c1a"/>
+				</element>
+				<element kind="staticText" uuid="c8cd88bb-a21b-4b06-8454-2e89e13aae4d" x="550" y="0" width="30" height="18" forecolor="#000000" fontSize="11.0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+					<text><![CDATA[Q]]></text>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571576f5-02e6-4d2a-aaa8-6b5102ec1c1a"/>
+				</element>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="7" splitType="Stretch">
+		<element kind="line" uuid="501ac6c4-e9d4-43cb-ba6b-7f2f44394cf3" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+	</columnFooter>
+	<pageFooter height="25" splitType="Stretch">
+		<element kind="frame" uuid="ffb10ec8-0371-4545-8eaa-96d62ad3cec0" mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000">
+			<element kind="textField" uuid="b5521ea6-5f36-4864-856f-58d0bcd011f2" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" fontSize="10.0" evaluationTime="Report" bold="false" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+			</element>
+			<element kind="textField" uuid="e625ea3c-1741-4cfe-81cf-fbbdd00162c8" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" fontSize="10.0" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+			</element>
+			<element kind="textField" uuid="0c9f7e91-d3f5-47f9-82b7-0b2b3a43a5d6" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA[new java.util.Date()]]></expression>
+			</element>
+		</element>
+	</pageFooter>
+	<summary splitType="Stretch"/>
+</jasperReport>

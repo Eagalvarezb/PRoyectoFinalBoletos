@@ -17,6 +17,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        id_inventario: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         cantidad: {
             type: Sequelize.INTEGER,
             allowNull: false
@@ -28,6 +32,10 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     DetalleVenta.associate = (models) => {
+        DetalleVenta.belongsTo(models.inventario, {
+            foreignKey: "id_inventario",
+            as: "inventario"
+        });
         DetalleVenta.belongsTo(models.ventas, {
             foreignKey: "id_venta",
             as: "venta"
