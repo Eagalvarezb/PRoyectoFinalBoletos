@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
  */
 
 public class LoginService {
-    private static final String BASE_URL = "http://localhost:8081/api/usuarios";
+    private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/usuarios";
     private static final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public void login(String nombre_usuario, String contrasena_hash, Login_View view) {

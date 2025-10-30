@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class UserService {
-    private static final String BASE_URL = "http://localhost:8081/api/usuarios";
+    private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/usuarios";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     // GET todos
