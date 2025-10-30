@@ -33,7 +33,7 @@ const Op = db.Sequelize.Op;
         try {
         const nombre = req.query.nombre_usuario;
         const condition = nombre ? { nombre_usuario: { [Op.iLike]: `%${nombre}%` } } : null;
-        const data = await Usuario.findAll({ where: condition });
+        const data = await Usuario.findAll({ where: condition, order: [["id_usuario", "ASC"]] });
         res.send(data);
         } catch (err) {
         res.status(500).send({ message: err.message });
@@ -54,22 +54,28 @@ const Op = db.Sequelize.Op;
 //------------------------------------------
 
 //------------------Update------------------
-    exports.update = (req, res) => {
-        const id = req.params.id;
+    exports.update = async (req, res) => {
+        try {
+            const id = req.params.id;
 
-        Usuario.update(req.body, { where: { id_usuario: id } })
-            .then(num => {
-                if (num == 1) {
-                    res.send({ message: "Usuario actualizado correctamente." });
-                } else {
-                    res.send({
-                        message: `No se pudo actualizar el Usuario con id=${id}. Tal vez no existe o req.body está vacío.`
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(500).send({ message: "Error actualizando Usuario con id=" + id });
+            if ('id_usuario' in req.body) {
+                delete req.body.id_usuario;
+            }
+
+            const [updated] = await Usuario.update(req.body, {
+                where: { id_usuario: id }
             });
+
+            if (updated) {
+                const updatedUser = await Usuario.findByPk(id);
+                res.json(updatedUser);
+            } else {
+                res.status(404).json({ message: `Usuario con id=${id} no encontrado o sin cambios.` });
+            }
+        } catch (error) {
+            console.error("Error al actualizar usuario:", error);
+            res.status(500).json({ message: 'Error interno del servidor', error });
+        }
     };
 //------------------------------------------
 

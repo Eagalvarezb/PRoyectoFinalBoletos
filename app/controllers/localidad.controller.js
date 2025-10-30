@@ -16,7 +16,9 @@ const Localidad = db.localidad;
 //-----------------Find_All-----------------
   exports.findAll = async (req, res) => {
     try {
-      const data = await Localidad.findAll();
+      const data = await Localidad.findAll({
+        order: [['id_localidad', 'ASC']] // ASC para ascendente, DESC para descendente
+      });
       res.json(data);
     } catch (err) {
       res.status(500).json({ message: err.message });

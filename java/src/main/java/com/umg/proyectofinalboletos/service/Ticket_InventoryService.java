@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class Ticket_InventoryService {
-    private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/inventarios";
+    private static final String BASE_URL = "http://localhost:8081/api/inventarios";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     // GET todos

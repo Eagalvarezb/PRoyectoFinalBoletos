@@ -43,7 +43,10 @@ const Op = db.Sequelize.Op;
 //-----------------Find_All-----------------
     exports.findAll = async (req, res) => {
         try {
-            const data = await DetalleVenta.findAll({include: ["venta", "localidad", "partido", "inventario"]});
+            const data = await DetalleVenta.findAll({
+                include: ["venta", "localidad", "partido", "inventario"],
+                order: [["id_detalle", "ASC"]]
+            });
             res.send(data);
         } catch (err) {
             res.status(500).send({ message: err.message });

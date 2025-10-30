@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class Sales_DetailsService {
-    private static final String BASE_URL = "https://proyectofinalboletos.onrender.com/api/detalle";
+    private static final String BASE_URL = "http://localhost:8081/api/detalle";
     private static final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     // GET todos
