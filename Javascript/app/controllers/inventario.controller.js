@@ -15,7 +15,9 @@ const Inventario = db.inventario;
 
 //-----------------Find_All-----------------
   exports.findAll = (req, res) => {
-    Inventario.findAll()
+    Inventario.findAll({
+    order: [['id_inventario', 'ASC']]
+  })
       .then(data => {
         res.json(data);
       })

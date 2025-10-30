@@ -26,7 +26,7 @@ const Op = db.Sequelize.Op;
 
 //-----------------Find_All-----------------
     exports.findAll = (req, res) => {
-        Venta.findAll()
+        Venta.findAll({order: [["id_usuario", "ASC"]]})
             .then(data => { res.send(data); })
             .catch(err => {
                 res.status(500).send({

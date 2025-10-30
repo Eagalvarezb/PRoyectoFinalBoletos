@@ -51,7 +51,7 @@ actualizarEstadosPartidos();
                 ];
             }
 
-            const data = await Partido.findAll({ where, order: [['fecha_partido', 'ASC']] });
+            const data = await Partido.findAll({ where, order: [['id_partido', 'ASC']] });
 
             // Actualizar estados dinámicamente al consultar
             for (let p of data) {

@@ -600,21 +600,34 @@ public class Matches_View extends javax.swing.JInternalFrame {
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         try {
-            int id = Integer.parseInt(txtId.getText());
-            service.delete(id);
-            JOptionPane.showMessageDialog(this, "✅ Partido eliminado correctamente");
-            updateTable();
-            cleanCampos();
+            int id = Integer.parseInt(txtId.getText().trim());
+            modelo.setRowCount(0); // Limpiar tabla
+
+            Matches t = service.getOne(id);
+            if (t != null) {
+                modelo.addRow(new Object[]{
+                    t.getId_partido(),
+                    t.getEquipo_visitante(),
+                    t.getEquipo_local(),
+                    t.getFecha_partido(),
+                    t.getEstadio(),
+                    t.getEstado()
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró un Info con ID " + id);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un ID válido");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar Info: " + e.getMessage());
-        }
+            JOptionPane.showMessageDialog(this, "Error al buscar Info: " + e.getMessage());
+        }  
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try {
             int id = Integer.parseInt(txtId.getText());
-            String mensaje = service.delete(id);
-            JOptionPane.showMessageDialog(this, "✅ " + mensaje);
+            service.delete(id);
+            JOptionPane.showMessageDialog(this, "✅ Partido eliminado correctamente");
             updateTable();
             cleanCampos();
         } catch (Exception e) {

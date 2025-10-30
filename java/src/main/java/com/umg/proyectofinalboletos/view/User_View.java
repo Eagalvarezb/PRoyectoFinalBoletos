@@ -607,6 +607,8 @@ public class User_View extends javax.swing.JInternalFrame {
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
         try {
             int id = Integer.parseInt(txtId.getText());
+            System.out.println("ID que se está enviando al backend: " + id); // 🕵️‍♂️
+
             User data = new User();
             data.setNombre_usuario(txtUsr.getText());
             data.setContrasena_hash(txtPass.getText());
